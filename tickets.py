@@ -15,14 +15,17 @@ def getmssticketcategories(certificatepath, certificatepassword):
     mss_url = 'https://api.monitoredsecurity.com/SWS/tickets.asmx'
     
     with pfx_to_pem(certificatepath, certificatepassword) as cert:
-        mmsactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
+        mssactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
     
-    root = ElementTree.fromstring(mmsactionresult.content)
+    root = ElementTree.fromstring(mssactionresult.content)
     
     ns = dict(soap="http://www.w3.org/2003/05/soap-envelope", xsi="http://www.w3.org/2001/XMLSchema-instance",
           xsd="http://www.w3.org/2001/XMLSchema", ms="https://www.monitoredsecurity.com/")
     
-    result = root.findall('./soap:Body/ms:TicketGetCategoriesResponse/ms:TicketGetCategoriesResult', ns)
+    if mssactionresult.status_code != 200:
+        result = root.findall('./soap:Body/soap:Fault/detail/faultstring', ns)
+    else:
+        result = root.findall('./soap:Body/ms:TicketGetCategoriesResponse/ms:TicketGetCategoriesResult', ns)
     print(ElementTree.tostring(result[0], encoding='utf-8', method='xml'))
     json_str = json.dumps(xmltodict.parse(ElementTree.tostring(result[0], encoding='utf-8', method='xml')))
     return json_str
@@ -43,14 +46,17 @@ def updatemssticket(certificatepath, certificatepassword, ticketupdatedoc=None, 
     mss_url = 'https://api.monitoredsecurity.com/SWS/tickets.asmx'
     
     with pfx_to_pem(certificatepath, certificatepassword) as cert:
-        mmsactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
+        mssactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
     
-    root = ElementTree.fromstring(mmsactionresult.content)
+    root = ElementTree.fromstring(mssactionresult.content)
     
     ns = dict(soap="http://www.w3.org/2003/05/soap-envelope", xsi="http://www.w3.org/2001/XMLSchema-instance",
           xsd="http://www.w3.org/2001/XMLSchema", ms="https://www.monitoredsecurity.com/")
     
-    result = root.findall('./soap:Body/ms:TicketUpdateResponse/ms:TicketUpdateResult', ns)
+    if mssactionresult.status_code != 200:
+        result = root.findall('./soap:Body/soap:Fault/detail/faultstring', ns)
+    else:
+        result = root.findall('./soap:Body/ms:TicketUpdateResponse/ms:TicketUpdateResult', ns)
     print(ElementTree.tostring(result[0], encoding='utf-8', method='xml'))
     json_str = json.dumps(xmltodict.parse(ElementTree.tostring(result[0], encoding='utf-8', method='xml')))
     return json_str
@@ -71,14 +77,17 @@ def newmssrequestrevised(certificatepath, certificatepassword, requestcreatedoc=
     mss_url = 'https://api.monitoredsecurity.com/SWS/tickets.asmx'
     
     with pfx_to_pem(certificatepath, certificatepassword) as cert:
-        mmsactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
+        mssactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
     
-    root = ElementTree.fromstring(mmsactionresult.content)
+    root = ElementTree.fromstring(mssactionresult.content)
     
     ns = dict(soap="http://www.w3.org/2003/05/soap-envelope", xsi="http://www.w3.org/2001/XMLSchema-instance",
           xsd="http://www.w3.org/2001/XMLSchema", ms="https://www.monitoredsecurity.com/")
     
-    result = root.findall('./soap:Body/ms:RequestCreateRevisedResponse/ms:RequestCreateRevisedResult', ns)
+    if mssactionresult.status_code != 200:
+        result = root.findall('./soap:Body/soap:Fault/detail/faultstring', ns)
+    else:
+        result = root.findall('./soap:Body/ms:RequestCreateRevisedResponse/ms:RequestCreateRevisedResult', ns)
     print(ElementTree.tostring(result[0], encoding='utf-8', method='xml'))
     json_str = json.dumps(xmltodict.parse(ElementTree.tostring(result[0], encoding='utf-8', method='xml')))
     return json_str
@@ -99,14 +108,17 @@ def newmssrequest(certificatepath, certificatepassword, requestcreatedoc=None):
     mss_url = 'https://api.monitoredsecurity.com/SWS/tickets.asmx'
     
     with pfx_to_pem(certificatepath, certificatepassword) as cert:
-        mmsactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
+        mssactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
     
-    root = ElementTree.fromstring(mmsactionresult.content)
+    root = ElementTree.fromstring(mssactionresult.content)
     
     ns = dict(soap="http://www.w3.org/2003/05/soap-envelope", xsi="http://www.w3.org/2001/XMLSchema-instance",
           xsd="http://www.w3.org/2001/XMLSchema", ms="https://www.monitoredsecurity.com/")
     
-    result = root.findall('./soap:Body/ms:RequestCreateResponse/ms:RequestCreateResult', ns)
+    if mssactionresult.status_code != 200:
+        result = root.findall('./soap:Body/soap:Fault/detail/faultstring', ns)
+    else:
+        result = root.findall('./soap:Body/ms:RequestCreateResponse/ms:RequestCreateResult', ns)
     print(ElementTree.tostring(result[0], encoding='utf-8', method='xml'))
     json_str = json.dumps(xmltodict.parse(ElementTree.tostring(result[0], encoding='utf-8', method='xml')))
     return json_str
@@ -127,14 +139,17 @@ def getmssticketquery(certificatepath, certificatepassword, ticketid=None, clien
     mss_url = 'https://api.monitoredsecurity.com/SWS/tickets.asmx'
     
     with pfx_to_pem(certificatepath, certificatepassword) as cert:
-        mmsactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
+        mssactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
     
-    root = ElementTree.fromstring(mmsactionresult.content)
+    root = ElementTree.fromstring(mssactionresult.content)
     
     ns = dict(soap="http://www.w3.org/2003/05/soap-envelope", xsi="http://www.w3.org/2001/XMLSchema-instance",
           xsd="http://www.w3.org/2001/XMLSchema", ms="https://www.monitoredsecurity.com/")
     
-    result = root.findall('./soap:Body/ms:TicketQueryResponse/ms:TicketQueryResult', ns)
+    if mssactionresult.status_code != 200:
+        result = root.findall('./soap:Body/soap:Fault/detail/faultstring', ns)
+    else:
+        result = root.findall('./soap:Body/ms:TicketQueryResponse/ms:TicketQueryResult', ns)
     print(ElementTree.tostring(result[0], encoding='utf-8', method='xml'))
     json_str = json.dumps(xmltodict.parse(ElementTree.tostring(result[0], encoding='utf-8', method='xml')))
     return json_str
@@ -155,14 +170,17 @@ def getmssrequestcategories(certificatepath, certificatepassword):
     mss_url = 'https://api.monitoredsecurity.com/SWS/tickets.asmx'
     
     with pfx_to_pem(certificatepath, certificatepassword) as cert:
-        mmsactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
+        mssactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
     
-    root = ElementTree.fromstring(mmsactionresult.content)
+    root = ElementTree.fromstring(mssactionresult.content)
     
     ns = dict(soap="http://www.w3.org/2003/05/soap-envelope", xsi="http://www.w3.org/2001/XMLSchema-instance",
           xsd="http://www.w3.org/2001/XMLSchema", ms="https://www.monitoredsecurity.com/")
     
-    result = root.findall('./soap:Body/ms:RequestGetCategoriesResponse/ms:RequestGetCategoriesResult', ns)
+    if mssactionresult.status_code != 200:
+        result = root.findall('./soap:Body/soap:Fault/detail/faultstring', ns)
+    else:
+        result = root.findall('./soap:Body/ms:RequestGetCategoriesResponse/ms:RequestGetCategoriesResult', ns)
     print(ElementTree.tostring(result[0], encoding='utf-8', method='xml'))
     json_str = json.dumps(xmltodict.parse(ElementTree.tostring(result[0], encoding='utf-8', method='xml')))
     return json_str
@@ -183,14 +201,17 @@ def getmssticketstatuses(certificatepath, certificatepassword):
     mss_url = 'https://api.monitoredsecurity.com/SWS/tickets.asmx'
     
     with pfx_to_pem(certificatepath, certificatepassword) as cert:
-        mmsactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
+        mssactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
     
-    root = ElementTree.fromstring(mmsactionresult.content)
+    root = ElementTree.fromstring(mssactionresult.content)
     
     ns = dict(soap="http://www.w3.org/2003/05/soap-envelope", xsi="http://www.w3.org/2001/XMLSchema-instance",
           xsd="http://www.w3.org/2001/XMLSchema", ms="https://www.monitoredsecurity.com/")
     
-    result = root.findall('./soap:Body/ms:TicketGetStatusesResponse/ms:TicketGetStatusesResult', ns)
+    if mssactionresult.status_code != 200:
+        result = root.findall('./soap:Body/soap:Fault/detail/faultstring', ns)
+    else:
+        result = root.findall('./soap:Body/ms:TicketGetStatusesResponse/ms:TicketGetStatusesResult', ns)
     print(ElementTree.tostring(result[0], encoding='utf-8', method='xml'))
     json_str = json.dumps(xmltodict.parse(ElementTree.tostring(result[0], encoding='utf-8', method='xml')))
     return json_str
@@ -211,14 +232,17 @@ def getmssticketurgencies(certificatepath, certificatepassword):
     mss_url = 'https://api.monitoredsecurity.com/SWS/tickets.asmx'
     
     with pfx_to_pem(certificatepath, certificatepassword) as cert:
-        mmsactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
+        mssactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
     
-    root = ElementTree.fromstring(mmsactionresult.content)
+    root = ElementTree.fromstring(mssactionresult.content)
     
     ns = dict(soap="http://www.w3.org/2003/05/soap-envelope", xsi="http://www.w3.org/2001/XMLSchema-instance",
           xsd="http://www.w3.org/2001/XMLSchema", ms="https://www.monitoredsecurity.com/")
     
-    result = root.findall('./soap:Body/ms:TicketGetUrgenciesResponse/ms:TicketGetUrgenciesResult', ns)
+    if mssactionresult.status_code != 200:
+        result = root.findall('./soap:Body/soap:Fault/detail/faultstring', ns)
+    else:
+        result = root.findall('./soap:Body/ms:TicketGetUrgenciesResponse/ms:TicketGetUrgenciesResult', ns)
     print(ElementTree.tostring(result[0], encoding='utf-8', method='xml'))
     json_str = json.dumps(xmltodict.parse(ElementTree.tostring(result[0], encoding='utf-8', method='xml')))
     return json_str
@@ -239,14 +263,17 @@ def getmssticketlist(certificatepath, certificatepassword, status=None, ticketca
     mss_url = 'https://api.monitoredsecurity.com/SWS/tickets.asmx'
     
     with pfx_to_pem(certificatepath, certificatepassword) as cert:
-        mmsactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
+        mssactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
     
-    root = ElementTree.fromstring(mmsactionresult.content)
+    root = ElementTree.fromstring(mssactionresult.content)
     
     ns = dict(soap="http://www.w3.org/2003/05/soap-envelope", xsi="http://www.w3.org/2001/XMLSchema-instance",
           xsd="http://www.w3.org/2001/XMLSchema", ms="https://www.monitoredsecurity.com/")
     
-    result = root.findall('./soap:Body/ms:TicketGetListResponse/ms:TicketGetListResult', ns)
+    if mssactionresult.status_code != 200:
+        result = root.findall('./soap:Body/soap:Fault/detail/faultstring', ns)
+    else:
+        result = root.findall('./soap:Body/ms:TicketGetListResponse/ms:TicketGetListResult', ns)
     print(ElementTree.tostring(result[0], encoding='utf-8', method='xml'))
     json_str = json.dumps(xmltodict.parse(ElementTree.tostring(result[0], encoding='utf-8', method='xml')))
     return json_str
@@ -267,14 +294,17 @@ def newmssrequestwithattachments(certificatepath, certificatepassword, requestcr
     mss_url = 'https://api.monitoredsecurity.com/SWS/tickets.asmx'
     
     with pfx_to_pem(certificatepath, certificatepassword) as cert:
-        mmsactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
+        mssactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
     
-    root = ElementTree.fromstring(mmsactionresult.content)
+    root = ElementTree.fromstring(mssactionresult.content)
     
     ns = dict(soap="http://www.w3.org/2003/05/soap-envelope", xsi="http://www.w3.org/2001/XMLSchema-instance",
           xsd="http://www.w3.org/2001/XMLSchema", ms="https://www.monitoredsecurity.com/")
     
-    result = root.findall('./soap:Body/ms:RequestCreateWithAttachmentsResponse/ms:RequestCreateWithAttachmentsResult', ns)
+    if mssactionresult.status_code != 200:
+        result = root.findall('./soap:Body/soap:Fault/detail/faultstring', ns)
+    else:
+        result = root.findall('./soap:Body/ms:RequestCreateWithAttachmentsResponse/ms:RequestCreateWithAttachmentsResult', ns)
     print(ElementTree.tostring(result[0], encoding='utf-8', method='xml'))
     json_str = json.dumps(xmltodict.parse(ElementTree.tostring(result[0], encoding='utf-8', method='xml')))
     return json_str
@@ -295,14 +325,17 @@ def getmssticketattachmentlist(certificatepath, certificatepassword, ticketid=No
     mss_url = 'https://api.monitoredsecurity.com/SWS/tickets.asmx'
     
     with pfx_to_pem(certificatepath, certificatepassword) as cert:
-        mmsactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
+        mssactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
     
-    root = ElementTree.fromstring(mmsactionresult.content)
+    root = ElementTree.fromstring(mssactionresult.content)
     
     ns = dict(soap="http://www.w3.org/2003/05/soap-envelope", xsi="http://www.w3.org/2001/XMLSchema-instance",
           xsd="http://www.w3.org/2001/XMLSchema", ms="https://www.monitoredsecurity.com/")
     
-    result = root.findall('./soap:Body/ms:TicketGetAttachmentListResponse/ms:TicketGetAttachmentListResult', ns)
+    if mssactionresult.status_code != 200:
+        result = root.findall('./soap:Body/soap:Fault/detail/faultstring', ns)
+    else:
+        result = root.findall('./soap:Body/ms:TicketGetAttachmentListResponse/ms:TicketGetAttachmentListResult', ns)
     print(ElementTree.tostring(result[0], encoding='utf-8', method='xml'))
     json_str = json.dumps(xmltodict.parse(ElementTree.tostring(result[0], encoding='utf-8', method='xml')))
     return json_str
@@ -323,14 +356,17 @@ def getmssticketattachmentcontents(certificatepath, certificatepassword, ticketi
     mss_url = 'https://api.monitoredsecurity.com/SWS/tickets.asmx'
     
     with pfx_to_pem(certificatepath, certificatepassword) as cert:
-        mmsactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
+        mssactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
     
-    root = ElementTree.fromstring(mmsactionresult.content)
+    root = ElementTree.fromstring(mssactionresult.content)
     
     ns = dict(soap="http://www.w3.org/2003/05/soap-envelope", xsi="http://www.w3.org/2001/XMLSchema-instance",
           xsd="http://www.w3.org/2001/XMLSchema", ms="https://www.monitoredsecurity.com/")
     
-    result = root.findall('./soap:Body/ms:TicketGetAttachmentContentsResponse/ms:TicketGetAttachmentContentsResult', ns)
+    if mssactionresult.status_code != 200:
+        result = root.findall('./soap:Body/soap:Fault/detail/faultstring', ns)
+    else:
+        result = root.findall('./soap:Body/ms:TicketGetAttachmentContentsResponse/ms:TicketGetAttachmentContentsResult', ns)
     print(ElementTree.tostring(result[0], encoding='utf-8', method='xml'))
     json_str = json.dumps(xmltodict.parse(ElementTree.tostring(result[0], encoding='utf-8', method='xml')))
     return json_str
@@ -351,14 +387,17 @@ def getmssticketdeleteattachments(certificatepath, certificatepassword, ticketid
     mss_url = 'https://api.monitoredsecurity.com/SWS/tickets.asmx'
     
     with pfx_to_pem(certificatepath, certificatepassword) as cert:
-        mmsactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
+        mssactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
     
-    root = ElementTree.fromstring(mmsactionresult.content)
+    root = ElementTree.fromstring(mssactionresult.content)
     
     ns = dict(soap="http://www.w3.org/2003/05/soap-envelope", xsi="http://www.w3.org/2001/XMLSchema-instance",
           xsd="http://www.w3.org/2001/XMLSchema", ms="https://www.monitoredsecurity.com/")
     
-    result = root.findall('./soap:Body/ms:TicketDeleteAttachmentsResponse/ms:TicketDeleteAttachmentsResult', ns)
+    if mssactionresult.status_code != 200:
+        result = root.findall('./soap:Body/soap:Fault/detail/faultstring', ns)
+    else:
+        result = root.findall('./soap:Body/ms:TicketDeleteAttachmentsResponse/ms:TicketDeleteAttachmentsResult', ns)
     print(ElementTree.tostring(result[0], encoding='utf-8', method='xml'))
     json_str = json.dumps(xmltodict.parse(ElementTree.tostring(result[0], encoding='utf-8', method='xml')))
     return json_str
@@ -379,14 +418,17 @@ def updatemssticketwithattachment(certificatepath, certificatepassword, ticketup
     mss_url = 'https://api.monitoredsecurity.com/SWS/tickets.asmx'
     
     with pfx_to_pem(certificatepath, certificatepassword) as cert:
-        mmsactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
+        mssactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
     
-    root = ElementTree.fromstring(mmsactionresult.content)
+    root = ElementTree.fromstring(mssactionresult.content)
     
     ns = dict(soap="http://www.w3.org/2003/05/soap-envelope", xsi="http://www.w3.org/2001/XMLSchema-instance",
           xsd="http://www.w3.org/2001/XMLSchema", ms="https://www.monitoredsecurity.com/")
     
-    result = root.findall('./soap:Body/ms:TicketUpdateWithAttachmentResponse/ms:TicketUpdateWithAttachmentResult', ns)
+    if mssactionresult.status_code != 200:
+        result = root.findall('./soap:Body/soap:Fault/detail/faultstring', ns)
+    else:
+        result = root.findall('./soap:Body/ms:TicketUpdateWithAttachmentResponse/ms:TicketUpdateWithAttachmentResult', ns)
     print(ElementTree.tostring(result[0], encoding='utf-8', method='xml'))
     json_str = json.dumps(xmltodict.parse(ElementTree.tostring(result[0], encoding='utf-8', method='xml')))
     return json_str
@@ -407,14 +449,17 @@ def updatemssticketwithattachmentrevised(certificatepath, certificatepassword, t
     mss_url = 'https://api.monitoredsecurity.com/SWS/tickets.asmx'
     
     with pfx_to_pem(certificatepath, certificatepassword) as cert:
-        mmsactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
+        mssactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
     
-    root = ElementTree.fromstring(mmsactionresult.content)
+    root = ElementTree.fromstring(mssactionresult.content)
     
     ns = dict(soap="http://www.w3.org/2003/05/soap-envelope", xsi="http://www.w3.org/2001/XMLSchema-instance",
           xsd="http://www.w3.org/2001/XMLSchema", ms="https://www.monitoredsecurity.com/")
     
-    result = root.findall('./soap:Body/ms:TicketUpdateWithAttachmentRevisedResponse/ms:TicketUpdateWithAttachmentRevisedResult', ns)
+    if mssactionresult.status_code != 200:
+        result = root.findall('./soap:Body/soap:Fault/detail/faultstring', ns)
+    else:
+        result = root.findall('./soap:Body/ms:TicketUpdateWithAttachmentRevisedResponse/ms:TicketUpdateWithAttachmentRevisedResult', ns)
     print(ElementTree.tostring(result[0], encoding='utf-8', method='xml'))
     json_str = json.dumps(xmltodict.parse(ElementTree.tostring(result[0], encoding='utf-8', method='xml')))
     return json_str
@@ -433,16 +478,45 @@ def getmssticketrecentlist(certificatepath, certificatepassword, status=None, ti
     body = MSSCore.NewMSSBody(MSSAction='TicketGetRecentList')
     body_str = ElementTree.tostring(body, encoding='utf8', method='xml')
     mss_url = 'https://api.monitoredsecurity.com/SWS/tickets.asmx'
-    
-    with pfx_to_pem(certificatepath, certificatepassword) as cert:
-        mmsactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
-    
-    root = ElementTree.fromstring(mmsactionresult.content)
-    
+
     ns = dict(soap="http://www.w3.org/2003/05/soap-envelope", xsi="http://www.w3.org/2001/XMLSchema-instance",
           xsd="http://www.w3.org/2001/XMLSchema", ms="https://www.monitoredsecurity.com/")
+
+    # region NameSpace Variables
+    xsi_ns = "http://www.w3.org/2001/XMLSchema-instance"
+    xsd_ns = "http://www.w3.org/2001/XMLSchema"
+    soap12_ns = "http://www.w3.org/2003/05/soap-envelope"
+    mss_ns = "https://www.monitoredsecurity.com/"
+    # endregion NameSpace Variables
+
+    starttimestampgmt = "date"
+
+    body_variable_section = body.find('./soap:Body/TicketGetRecentList', ns).text
+    # region add soap12:body node to soap12:envelope node
+    variablexmlnode = ElementTree.Element(ElementTree.QName(starttimestampgmt))
+    variablexmlnode.text = 'Dat1'
+    ElementTree.tostring(variablexmlnode)
+    # region add Action Node to soap12:body node
+    t.append(variablexmlnode)
+    ElementTree.tostring(body)
+    eve = ElementTree.Element("soap12:Envelope")
+    t = ElementTree.SubElement(eve,'soap12:Body')
+    body    # region add Action Node to soap12:body node
+
+
+    ElementTree.dump(body)
+
+    with pfx_to_pem(certificatepath, certificatepassword) as cert:
+        mssactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
     
-    result = root.findall('./soap:Body/ms:TicketGetRecentListResponse/ms:TicketGetRecentListResult', ns)
+    root = ElementTree.fromstring(mssactionresult.content)
+    
+
+    
+    if mssactionresult.status_code != 200:
+        result = root.findall('./soap:Body/soap:Fault/detail/faultstring', ns)
+    else:
+        result = root.findall('./soap:Body/ms:TicketGetRecentListResponse/ms:TicketGetRecentListResult', ns)
     print(ElementTree.tostring(result[0], encoding='utf-8', method='xml'))
     json_str = json.dumps(xmltodict.parse(ElementTree.tostring(result[0], encoding='utf-8', method='xml')))
     return json_str
@@ -463,14 +537,17 @@ def newmssrequestwithattachmentsext(certificatepath, certificatepassword, reques
     mss_url = 'https://api.monitoredsecurity.com/SWS/tickets.asmx'
     
     with pfx_to_pem(certificatepath, certificatepassword) as cert:
-        mmsactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
+        mssactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
     
-    root = ElementTree.fromstring(mmsactionresult.content)
+    root = ElementTree.fromstring(mssactionresult.content)
     
     ns = dict(soap="http://www.w3.org/2003/05/soap-envelope", xsi="http://www.w3.org/2001/XMLSchema-instance",
           xsd="http://www.w3.org/2001/XMLSchema", ms="https://www.monitoredsecurity.com/")
     
-    result = root.findall('./soap:Body/ms:RequestCreateWithAttachmentsExtResponse/ms:RequestCreateWithAttachmentsExtResult', ns)
+    if mssactionresult.status_code != 200:
+        result = root.findall('./soap:Body/soap:Fault/detail/faultstring', ns)
+    else:
+        result = root.findall('./soap:Body/ms:RequestCreateWithAttachmentsExtResponse/ms:RequestCreateWithAttachmentsExtResult', ns)
     print(ElementTree.tostring(result[0], encoding='utf-8', method='xml'))
     json_str = json.dumps(xmltodict.parse(ElementTree.tostring(result[0], encoding='utf-8', method='xml')))
     return json_str
@@ -491,14 +568,17 @@ def updatemssticketwithattachmentext(certificatepath, certificatepassword, ticke
     mss_url = 'https://api.monitoredsecurity.com/SWS/tickets.asmx'
     
     with pfx_to_pem(certificatepath, certificatepassword) as cert:
-        mmsactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
+        mssactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
     
-    root = ElementTree.fromstring(mmsactionresult.content)
+    root = ElementTree.fromstring(mssactionresult.content)
     
     ns = dict(soap="http://www.w3.org/2003/05/soap-envelope", xsi="http://www.w3.org/2001/XMLSchema-instance",
           xsd="http://www.w3.org/2001/XMLSchema", ms="https://www.monitoredsecurity.com/")
     
-    result = root.findall('./soap:Body/ms:TicketUpdateWithAttachmentExtResponse/ms:TicketUpdateWithAttachmentExtResult', ns)
+    if mssactionresult.status_code != 200:
+        result = root.findall('./soap:Body/soap:Fault/detail/faultstring', ns)
+    else:
+        result = root.findall('./soap:Body/ms:TicketUpdateWithAttachmentExtResponse/ms:TicketUpdateWithAttachmentExtResult', ns)
     print(ElementTree.tostring(result[0], encoding='utf-8', method='xml'))
     json_str = json.dumps(xmltodict.parse(ElementTree.tostring(result[0], encoding='utf-8', method='xml')))
     return json_str
@@ -519,14 +599,17 @@ def getmssarrayofattachment(certificatepath, certificatepassword):
     mss_url = 'https://api.monitoredsecurity.com/SWS/tickets.asmx'
     
     with pfx_to_pem(certificatepath, certificatepassword) as cert:
-        mmsactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
+        mssactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
     
-    root = ElementTree.fromstring(mmsactionresult.content)
+    root = ElementTree.fromstring(mssactionresult.content)
     
     ns = dict(soap="http://www.w3.org/2003/05/soap-envelope", xsi="http://www.w3.org/2001/XMLSchema-instance",
           xsd="http://www.w3.org/2001/XMLSchema", ms="https://www.monitoredsecurity.com/")
     
-    result = root.findall('./soap:Body/ms:TicketUpdateWithAttachmentExtResponse/ms:TicketUpdateWithAttachmentExtResult', ns)
+    if mssactionresult.status_code != 200:
+        result = root.findall('./soap:Body/soap:Fault/detail/faultstring', ns)
+    else:
+        result = root.findall('./soap:Body/ms:TicketUpdateWithAttachmentExtResponse/ms:TicketUpdateWithAttachmentExtResult', ns)
     print(ElementTree.tostring(result[0], encoding='utf-8', method='xml'))
     json_str = json.dumps(xmltodict.parse(ElementTree.tostring(result[0], encoding='utf-8', method='xml')))
     return json_str

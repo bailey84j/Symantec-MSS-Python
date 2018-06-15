@@ -112,14 +112,17 @@ for element in root.findall("./wsdl:types/s:schema/s:element", ns):
     mss_url = 'https://api.monitoredsecurity.com/SWS/""" + Page + """.asmx'
     
     with pfx_to_pem(certificatepath, certificatepassword) as cert:
-        mmsactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
+        mssactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
     
-    root = ElementTree.fromstring(mmsactionresult.content)
+    root = ElementTree.fromstring(mssactionresult.content)
     
     ns = dict(soap="http://www.w3.org/2003/05/soap-envelope", xsi="http://www.w3.org/2001/XMLSchema-instance",
           xsd="http://www.w3.org/2001/XMLSchema", ms="https://www.monitoredsecurity.com/")
     
-    result = root.findall('""" + response + """', ns)
+    if mssactionresult.status_code != 200:
+        result = root.findall('./soap:Body/soap:Fault/detail/faultstring', ns)
+    else:
+        result = root.findall('""" + response + """', ns)
     print(ElementTree.tostring(result[0], encoding='utf-8', method='xml'))
     json_str = json.dumps(xmltodict.parse(ElementTree.tostring(result[0], encoding='utf-8', method='xml')))
     return json_str
@@ -137,3 +140,6 @@ f = open(Page + ".py", "w+")
 # text_file = open("test-Output.py", "w")
 f.write(page_str)
 f.close()
+
+
+
