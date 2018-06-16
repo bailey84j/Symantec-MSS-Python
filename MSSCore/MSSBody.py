@@ -33,7 +33,7 @@ def NewMSSBody(MSSAction=None):
     # region add Action Node to soap12:body node
     soapbodyxmlnode.append(mssactionxmlnode)
     # region add Action Node to soap12:body node
-    print(ElementTree.tostring(soapenvelopexmlnode, encoding='utf-8', method='xml'))
+    #print(ElementTree.tostring(soapenvelopexmlnode, encoding='utf-8', method='xml'))
     # endregion add Action Node to soap12:body node
     return soapenvelopexmlnode
 

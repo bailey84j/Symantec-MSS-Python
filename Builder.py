@@ -71,14 +71,23 @@ for element in root.findall("./wsdl:types/s:schema/s:element", ns):
 
         # region get required parameters
         function_output = []
+        function_var_to_xml = ""
         for selement in root.findall(
                 "./wsdl:types/s:schema/s:element[@name='" + name + "']/s:complexType/s:sequence/s:element", ns):
             if selement.attrib['name'].lower() not in function_output:
                 function_output.append(selement.attrib['name'].lower())
                 if selement.attrib['minOccurs'] == 1:
                     function_str = function_str + selement.attrib['name'].lower() + ', '
+                    function_var_to_xml = function_var_to_xml + """ 
+    new_dec = ElementTree.SubElement(body_variable_section, '""" + selement.attrib['name'].lower() + """')
+    new_dec.text = """ + selement.attrib['name'].lower()
+
                 else:
                     function_str = function_str + selement.attrib['name'].lower() + '=None, '
+                    function_var_to_xml = function_var_to_xml + """ 
+    if """ + selement.attrib['name'].lower() + """ != "":
+        new_dec = ElementTree.SubElement(body_variable_section, '""" + selement.attrib['name'] + """')
+        new_dec.text = """ + selement.attrib['name'].lower()
 
         # response Field
         response_output = []
@@ -106,18 +115,22 @@ for element in root.findall("./wsdl:types/s:schema/s:element", ns):
         # endregion paramaters to xml
         # region function main body
         function_body = """
+    ns = dict(soap="http://www.w3.org/2003/05/soap-envelope", xsi="http://www.w3.org/2001/XMLSchema-instance",
+          xsd="http://www.w3.org/2001/XMLSchema", ms="https://www.monitoredsecurity.com/")
+    
     header = MSSCore.NewMSSHeader(MSSAction='""" + name + """')
     body = MSSCore.NewMSSBody(MSSAction='""" + name + """')
-    body_str = ElementTree.tostring(body, encoding='utf8', method='xml')
     mss_url = 'https://api.monitoredsecurity.com/SWS/""" + Page + """.asmx'
-    
+    body_variable_section = body.find('./soap:Body/""" + name + """', ns)"""
+
+    function_body = function_body + function_var_to_xml
+    function_body = function_body + """
+    body_str = ElementTree.tostring(body, encoding='utf8', method='xml')
+    print (body_str)
     with pfx_to_pem(certificatepath, certificatepassword) as cert:
         mssactionresult = requests.post(mss_url, cert=cert, data=body_str, headers=header)
     
     root = ElementTree.fromstring(mssactionresult.content)
-    
-    ns = dict(soap="http://www.w3.org/2003/05/soap-envelope", xsi="http://www.w3.org/2001/XMLSchema-instance",
-          xsd="http://www.w3.org/2001/XMLSchema", ms="https://www.monitoredsecurity.com/")
     
     if mssactionresult.status_code != 200:
         result = root.findall('./soap:Body/soap:Fault/detail/faultstring', ns)
@@ -128,8 +141,8 @@ for element in root.findall("./wsdl:types/s:schema/s:element", ns):
     return json_str
         """
 
-        function_str = function_str + function_body
-        # endregion function main body
+    function_str = function_str + function_body
+    # endregion function main body
 
         page_str = page_str + "\n\n" + function_str
     else:
